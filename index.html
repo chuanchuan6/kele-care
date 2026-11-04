@@ -618,5 +618,11 @@
         renderAll();
       })();
     </script>
+    <script>
+      /* 离线缓存：注册 service worker，页面存进手机后断网/无 VPN 也能开 */
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./sw.js").catch(function () {});
+      }
+    </script>
   </body>
 </html>
