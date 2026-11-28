@@ -99,9 +99,20 @@ button, [role="button"], select, summary, input:not([type="checkbox"],[type="rad
 /* 记录 sheet */
 .sheet-mask{ position:fixed; inset:0; background:rgba(0,0,0,.42); z-index:60; display:none; }
 .sheet-mask.open{ display:block; }
-.sheet{ position:fixed; left:0; right:0; bottom:0; z-index:61; background:var(--bg); border-radius:22px 22px 0 0; max-height:92vh; overflow-y:auto; transform:translateY(105%); transition:transform .28s ease; padding-bottom:calc(20px + env(safe-area-inset-bottom)); }
+.sheet{ position:fixed; left:0; right:0; bottom:0; z-index:61; background:var(--bg); border-radius:22px 22px 0 0; max-height:92vh; overflow:hidden; transform:translateY(105%); transition:transform .28s ease; display:flex; flex-direction:column; align-items:center; }
 .sheet.open{ transform:translateY(0); }
-.sheet-in{ max-width:560px; margin:0 auto; padding:8px 16px 0; }
+.sheet-in{ max-width:560px; width:100%; box-sizing:border-box; margin:0 auto; padding:8px 16px 0; overflow-y:auto; flex:1 1 auto; }
+.sheet-foot{ flex:none; width:100%; max-width:560px; box-sizing:border-box; margin:0 auto; padding:10px 16px calc(10px + env(safe-area-inset-bottom)); background:var(--bg); border-top:1px solid var(--line); }
+/* 苹果健康式单选列表（经期 / 月经量） */
+.radio-card{ background:var(--card); border-radius:14px; overflow:hidden; margin-top:14px; }
+.radio-head{ background:var(--pink); color:#fff; font-size:14px; font-weight:700; padding:9px 14px; }
+.radio-sub{ font-size:12.5px; color:var(--ink2); font-weight:600; padding:10px 14px 2px; }
+.radio-row{ display:flex; align-items:center; width:100%; border:none; background:transparent; padding:13px 14px; font-size:16px; font-weight:600; color:var(--ink); border-top:1px solid var(--line); text-align:left; }
+.radio-head + .radio-row{ border-top:none; }
+.radio-row .radio{ margin-left:auto; width:24px; height:24px; border-radius:50%; border:2px solid var(--ink3); flex:none; position:relative; }
+.radio-row.on .radio{ border-color:var(--pink); }
+.radio-row.on .radio::after{ content:''; position:absolute; inset:4px; border-radius:50%; background:var(--pink); }
+.radio-row .drop{ margin-right:8px; }
 .grab{ width:38px; height:5px; border-radius:3px; background:var(--ink3); margin:8px auto 4px; opacity:.55; }
 .sheet h2{ font-size:21px; font-weight:800; margin:8px 0 2px; }
 .sheet .hintline{ color:var(--ink2); font-size:13px; }
@@ -117,6 +128,38 @@ textarea.field{ min-height:64px; resize:vertical; }
 input[type="number"].field{ max-width:170px; }
 .sheet .save-note{ text-align:center; color:var(--ink3); font-size:12.5px; margin-top:16px; }
 .window-tip{ background:var(--purple-soft); border-radius:12px; padding:11px 13px; font-size:14px; line-height:1.55; color:var(--ink); margin-top:12px; }
+.btn.danger{ background:var(--red); color:#fff; }
+.nav-btn.auto{ width:auto; padding:0 13px; border-radius:999px; font-size:13.5px; font-weight:700; }
+.cal-day.sel{ background:var(--card2); }
+.date-jump{ display:flex; align-items:center; gap:10px; margin-top:14px; }
+.date-jump .dj-label{ font-size:14px; font-weight:700; color:var(--ink2); flex:none; }
+.date-jump input{ flex:1; }
+.danger-zone{ margin-top:26px; border-top:1px solid var(--line); padding-top:4px; }
+.del-card{ background:var(--card); border-radius:12px; padding:12px 13px; margin-top:10px; }
+.del-info{ font-size:14.5px; line-height:1.55; }
+.del-btn{ width:100%; border:none; background:var(--card); color:var(--red); border-radius:12px; padding:14px 12px; font-size:16px; font-weight:600; margin-top:10px; min-height:48px; }
+.del-card .del-btn{ background:var(--card2); }
+.confirm-box{ background:var(--card); border:1.5px solid var(--red); border-radius:12px; padding:13px; margin-top:10px; }
+.confirm-txt{ font-size:14.5px; line-height:1.55; }
+/* 记录页顶部横向日期条 */
+.strip-wrap{ display:flex; gap:6px; overflow-x:auto; padding:10px 2px 6px; scrollbar-width:none; position:relative; -webkit-overflow-scrolling:touch; }
+.strip-wrap::-webkit-scrollbar{ display:none; }
+.strip-day{ flex:none; width:44px; border:none; background:transparent; display:flex; flex-direction:column; align-items:center; gap:4px; padding:2px 0; color:var(--ink2); min-height:0; }
+.strip-day .swd{ font-size:11px; font-weight:600; }
+.strip-day .soval{ width:38px; height:50px; border-radius:999px; background:var(--card2); color:var(--ink); display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; transition:transform .15s ease; }
+.strip-day.isp .soval{ background:var(--pink-soft); color:var(--pink); }
+.strip-day.sel .soval{ background:var(--pink); color:#fff; transform:scale(1.16); }
+.strip-day.sel .swd{ color:var(--pink); font-weight:800; }
+/* 经期历史 */
+.hist-row{ display:block; width:100%; text-align:left; border:none; background:transparent; padding:13px 0; border-top:1px solid var(--line); color:var(--ink); }
+.hist-row:first-of-type{ border-top:none; }
+.hist-row .chev{ float:right; color:var(--ink3); font-size:17px; }
+.hist-t{ font-size:16.5px; font-weight:800; line-height:1.45; }
+.hist-s{ font-size:13.5px; color:var(--ink2); margin-top:2px; }
+.hist-strip{ display:flex; gap:2.5px; margin-top:9px; }
+.hist-cell{ flex:1; min-width:4px; max-width:9px; height:24px; border-radius:5px; background:var(--card2); position:relative; }
+.hist-cell.on{ background:var(--pink-soft); }
+.hist-cell.on::after{ content:''; position:absolute; top:3px; left:50%; transform:translateX(-50%); width:5px; height:5px; border-radius:50%; background:var(--pink); }
 /* 统计 */
 .bar-row{ display:flex; align-items:flex-end; gap:10px; height:110px; margin-top:14px; padding:0 2px; }
 .bar-col{ flex:1; display:flex; flex-direction:column; align-items:center; gap:5px; height:100%; justify-content:flex-end; }
@@ -158,7 +201,7 @@ input[type="number"].field{ max-width:170px; }
 .install-tip b{ font-size:16px; }
 .install-tip p{ margin:6px 0 0; font-size:13.5px; line-height:1.6; opacity:.95; }
 @media (min-width:700px){ .page-head h1{ font-size:36px; } }
-@media (prefers-reduced-motion: reduce){ .sheet{ transition:none; } .toast{ transition:none; } }
+@media (prefers-reduced-motion: reduce){ .sheet{ transition:none; } .toast{ transition:none; } .strip-day .soval{ transition:none; } }
 </style>
 </head>
 <body>
@@ -172,11 +215,12 @@ input[type="number"].field{ max-width:170px; }
 
   <!-- ===== 日历 ===== -->
   <section class="view" id="view-calendar">
-    <div class="page-head"><h1>日历</h1><div class="date-line">点任意一天，补记或修改那天的记录</div></div>
+    <div class="page-head"><h1>日历</h1><div class="date-line">点任意一天（包括以前的日子），补记、修改或删除那天的记录</div></div>
     <div class="card">
       <div class="cal-head">
         <button class="nav-btn" id="cal-prev" aria-label="上个月">‹</button>
         <div class="m" id="cal-title"></div>
+        <button class="nav-btn auto" id="cal-today">本月</button>
         <button class="nav-btn" id="cal-next" aria-label="下个月">›</button>
       </div>
       <div class="cal-grid" id="cal-wd"></div>
@@ -191,6 +235,7 @@ input[type="number"].field{ max-width:170px; }
       </div>
     </div>
     <div class="card" id="cal-detail"></div>
+    <div class="card" id="cal-history"></div>
   </section>
 
   <!-- ===== 统计 ===== -->
@@ -228,8 +273,21 @@ input[type="number"].field{ max-width:170px; }
     <h2 id="sheet-title"></h2>
     <div class="hintline" id="sheet-sub"></div>
     <div id="sheet-body"></div>
-    <button class="btn primary" id="sheet-close" style="width:100%;margin-top:20px">完成</button>
     <div class="save-note">点选即自动保存到这台手机</div>
+  </div>
+  <div class="sheet-foot"><button class="btn primary" id="sheet-close" style="width:100%">完成</button></div>
+</div>
+
+<!-- ===== 经期编辑 sheet ===== -->
+<div class="sheet-mask" id="psheet-mask"></div>
+<div class="sheet" id="psheet" role="dialog" aria-modal="true">
+  <div class="sheet-in">
+    <div class="grab"></div>
+    <h2>编辑这次经期</h2>
+    <div class="hintline" id="psheet-sub"></div>
+    <div id="psheet-body"></div>
+    <button class="btn primary" id="psheet-save" style="width:100%;margin-top:20px">保存修改</button>
+    <button class="btn ghost" id="psheet-close" style="width:100%;margin-top:10px;color:var(--ink)">取消</button>
   </div>
 </div>
 
@@ -272,8 +330,15 @@ function load(){
   return defaultState();
 }
 var S=load();
-function save(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(S)); }catch(e){} }
+function isEmptyRec(r){ if(!r) return true; return !(r.flow!=null||r.pain!=null||r.mood!=null||r.lh!=null||r.discharge!=null||r.bbt!=null||r.sex||(r.symptoms&&r.symptoms.length)||(r.note&&String(r.note).trim())); }
+function hasDayData(r){ return !isEmptyRec(r); }
+function save(){ Object.keys(S.days).forEach(function(k){ if(isEmptyRec(S.days[k])) delete S.days[k]; }); try{ localStorage.setItem(LS_KEY, JSON.stringify(S)); }catch(e){} }
 function dayRec(ds){ if(!S.days[ds]) S.days[ds]={}; return S.days[ds]; }
+function periodFor(ds){
+  var ps=sortedPeriods();
+  for(var i=0;i<ps.length;i++){ var p=ps[i]; if(ds>=p.start && (!p.end || ds<=p.end)) return p; }
+  return null;
+}
 
 /* ============ 周期计算 ============ */
 function sortedPeriods(){ return S.periods.slice().sort(function(a,b){ return a.start<b.start?-1:1; }); }
@@ -374,6 +439,7 @@ function renderSummary(){
     html+='<div class="sub" style="margin-top:10px">已记下一次经期。再记一次开始日，就能算出平均周期和下次预测。</div>'
       +'<div class="btn-row"><button class="btn primary" id="sum-start">今天来了</button><button class="btn ghost" id="sum-today">记今天</button></div>';
   }
+  html+='<button class="text-btn" id="sum-pick" style="padding-left:0">选择其他日期补记 / 修改 ›</button>';
   html+='</div>';
   /* 排卵与易孕期卡（摘要内不出现叶酸/体温/试纸） */
   if(c.next && !S.preg){
@@ -439,6 +505,7 @@ function bindSummary(c){
   var td=$('#sum-today'); if(td) td.addEventListener('click', function(){ openSheet(todayStr()); });
   var fl=$('#sum-flow'); if(fl) fl.addEventListener('click', function(){ openSheet(todayStr()); });
   var gl=$('#sum-golist'); if(gl) gl.addEventListener('click', function(){ switchTab('list'); });
+  var pk=$('#sum-pick'); if(pk) pk.addEventListener('click', function(){ switchTab('calendar'); });
   var up=$('#sum-unpreg'); if(up) up.addEventListener('click', function(){ if(this.getAttribute('data-arm')){ S.preg=null; save(); renderAll(); toast('已恢复经期预测'); } else { this.setAttribute('data-arm','1'); this.textContent='再点一次确认撤销'; } });
 }
 function startPeriod(ds){
@@ -470,6 +537,7 @@ function renderCalendar(){
     var d=addD(gridStart,i), ds=fmt(d), cls=['cal-day'];
     if(d.getMonth()!==m) cls.push('dim');
     if(ds===todayStr()) cls.push('today');
+    if(ds===calSelected) cls.push('sel');
     var rec=S.days[ds]||{};
     var isPeriod=inPeriod(ds,c);
     if(isPeriod) cls.push('f'+((rec.flow!=null?rec.flow:1)+1));
@@ -482,12 +550,44 @@ function renderCalendar(){
     var marks='';
     if(rec.sex) marks+='♥';
     if(rec.lh===2) marks+='◆';
-    html+='<button class="'+cls.join(' ')+'" data-date="'+ds+'"><span class="dnum">'+d.getDate()+'</span><span class="marks">'+marks+'</span></button>';
+    html+='<button type="button" class="'+cls.join(' ')+'" data-date="'+ds+'" aria-label="'+cnDate(ds)+'"><span class="dnum">'+d.getDate()+'</span><span class="marks">'+marks+'</span></button>';
   }
   $('#cal-grid').innerHTML=html;
   var btns=document.querySelectorAll('#cal-grid .cal-day');
   for(var j=0;j<btns.length;j++) btns[j].addEventListener('click', function(){ calSelected=this.getAttribute('data-date'); renderCalDetail(); openSheet(calSelected); });
   renderCalDetail();
+  renderHistory();
+}
+function mdTxt(ds){ var d=parseD(ds); return (d.getMonth()+1)+'月'+d.getDate()+'日'; }
+function renderHistory(){
+  var box=$('#cal-history'); if(!box) return;
+  var c=calc();
+  var head='<div class="cat" style="color:var(--pink)"><span class="dot" style="background:var(--pink)"></span>经期历史</div>';
+  if(!c.periods.length){
+    box.innerHTML=head+'<div class="sub" style="margin-top:8px">还没有记录。点日历上任意一天（包括以前的日子），就能补记那次经期的开始和结束。</div>';
+    return;
+  }
+  var ps=c.periods, html=head+'<div class="sub" style="margin-top:4px">点任意一次经期，可以改开始 / 结束日期，或删除整次。</div>';
+  for(var i=ps.length-1;i>=0;i--){
+    var p=ps[i], next=ps[i+1];
+    var plen=p.end?(diffD(parseD(p.end),parseD(p.start))+1):(diffD(new Date(),parseD(p.start))+1);
+    var cycEnd=next?fmt(addD(parseD(next.start),-1)):(p.end?p.end:todayStr());
+    var cycLen=Math.max(plen, diffD(parseD(cycEnd),parseD(p.start))+1);
+    var title, sub;
+    if(!p.end){ title='当前经期：开始于 '+mdTxt(p.start)+'（已持续 '+plen+' 天）'; sub='月经进行中'; }
+    else if(next){ title=cycLen+'天：'+mdTxt(p.start)+' – '+mdTxt(cycEnd); sub=plen+'天月经'; }
+    else { title=mdTxt(p.start)+' – '+mdTxt(p.end); sub=plen+'天月经'; }
+    html+='<button type="button" class="hist-row" data-pstart="'+p.start+'"><span class="chev">›</span><div class="hist-t">'+title+'</div><div class="hist-s">'+sub+'</div><div class="hist-strip">';
+    var n=Math.min(cycLen,45);
+    for(var d=0; d<n; d++){ var ds2=fmt(addD(parseD(p.start),d)); var on=(!p.end || ds2<=p.end); html+='<span class="hist-cell'+(on?' on':'')+'"></span>'; }
+    html+='</div></button>';
+  }
+  box.innerHTML=html;
+  var rows=box.querySelectorAll('[data-pstart]');
+  for(var r=0;r<rows.length;r++) rows[r].addEventListener('click', function(){
+    var p=findPeriodByStart(this.getAttribute('data-pstart'));
+    if(p) openPeriodEditor(p);
+  });
 }
 function renderCalDetail(){
   var ds=calSelected, c=calc(), rec=S.days[ds]||{}, parts=[];
@@ -505,8 +605,9 @@ function renderCalDetail(){
 <script>
 /* ============ 每日记录 sheet ============ */
 var sheetDate=todayStr();
+var sheetConfirm=null;
 function openSheet(ds){
-  sheetDate=ds; renderSheet();
+  sheetDate=ds; calSelected=ds; sheetConfirm=null; renderSheet();
   $('#sheet-mask').classList.add('open'); $('#sheet').classList.add('open');
 }
 function closeSheet(){ $('#sheet-mask').classList.remove('open'); $('#sheet').classList.remove('open'); renderAll(); }
@@ -517,23 +618,36 @@ function tileGroup(label, items, cur, attr, extraCls){
   });
   return h+'</div>';
 }
+function confirmBox(txt, kind){
+  return '<div class="confirm-box"><div class="confirm-txt">'+txt+'</div><div class="btn-row"><button class="btn ghost" data-confirm-cancel="1">取消</button><button class="btn danger" data-confirm-yes="'+kind+'">确认删除</button></div></div>';
+}
 function renderSheet(){
   var ds=sheetDate, rec=dayRec(ds), c=calc();
-  $('#sheet-title').textContent=cnDate(ds);
-  var isStart=false, isEnd=false, inPeriod=false;
-  c.periods.forEach(function(p){ if(p.start===ds) isStart=true; if(p.end===ds) isEnd=true; });
-  inPeriod=inPeriod(ds,c);
-  $('#sheet-sub').textContent=inPeriod?'经期中':'非经期';
+  var rel=ds===todayStr()?'今天':(ds===fmt(addD(new Date(),-1))?'昨天':(ds===fmt(addD(new Date(),1))?'明天':'周'+'日一二三四五六'[parseD(ds).getDay()]));
+  $('#sheet-title').textContent=mdTxt(ds)+' '+rel;
+  var inP=inPeriod(ds,c);
+  $('#sheet-sub').textContent=cnDate(ds)+' · '+(inP?'经期中':'非经期');
   var h='';
-  /* 经期起止 */
-  h+='<div class="group-t">经期</div><div class="tiles">';
-  h+='<button class="tile'+(isStart?' on':'')+'" id="sh-start">这天开始</button>';
-  h+='<button class="tile'+(isEnd?' on':'')+'" id="sh-end">这天结束</button>';
-  if(isStart||isEnd) h+='<button class="tile" id="sh-undoperiod">取消起止标记</button>';
+  /* 顶部横向日期条：左右滑，点哪格记哪天 */
+  h+='<div class="strip-wrap" id="strip">';
+  for(var off=-30; off<=30; off++){
+    var d2=addD(parseD(ds),off), d2s=fmt(d2);
+    h+='<button type="button" class="strip-day'+(off===0?' sel':'')+(inPeriod(d2s,c)?' isp':'')+'" data-strip="'+d2s+'"><span class="swd">'+'日一二三四五六'[d2.getDay()]+'</span><span class="soval">'+d2.getDate()+'</span></button>';
+  }
   h+='</div>';
-  /* 经期组 */
-  var flowItems=FLOW_TXT.map(function(f,i){ return '<span class="drop" style="opacity:'+(0.35+i*0.22)+'"></span>'+f; });
-  h+=tileGroup('量（点一档）', flowItems, rec.flow, 'flow');
+  /* 日期跳转：任意一天都能直接选，包括过去的日期 */
+  h+='<div class="date-jump"><span class="dj-label">日期</span><input type="date" class="field" id="sh-date" value="'+ds+'"></div>';
+  /* 第一组：经期（有出血 / 未出血）；第二组：月经量（四档单选） */
+  var per0=periodFor(ds);
+  var bleeding0=!!per0 && (!!per0.end || ds<=todayStr());
+  h+='<div class="radio-card"><div class="radio-head">经期</div>'
+    +'<button type="button" class="radio-row'+(bleeding0?' on':'')+'" id="sh-bleed-yes">有出血<span class="radio"></span></button>'
+    +'<button type="button" class="radio-row'+(bleeding0?'':' on')+'" id="sh-bleed-no">未出血<span class="radio"></span></button>'
+    +'<div class="radio-sub">月经量</div>';
+  FLOW_TXT.forEach(function(f,i){
+    h+='<button type="button" class="radio-row'+(rec.flow===i?' on':'')+'" data-flow="'+i+'"><span class="drop" style="opacity:'+(0.35+i*0.22)+'"></span>'+f+'<span class="radio"></span></button>';
+  });
+  h+='</div><div class="sub" style="margin-top:8px">选「有出血」= 这天算经期；哪天点错了，打开那天选「未出血」，就能把这天从经期里去掉。</div>';
   h+=tileGroup('痛经程度', PAIN_TXT, rec.pain, 'pain');
   h+='<div class="group-t">症状（可多选）</div><div class="tiles">';
   SYMPTOMS.forEach(function(s){ var on=(rec.symptoms||[]).indexOf(s)>=0; h+='<button class="tile'+(on?' on':'')+'" data-sym="'+esc(s)+'">'+s+'</button>'; });
@@ -548,13 +662,41 @@ function renderSheet(){
   h+='<div class="group-t">同房</div><div class="tiles"><button class="tile'+(rec.sex?' on':'')+'" id="sh-sex">♥ 今天有同房</button></div>';
   /* 备注 */
   h+='<div class="group-t">备注（选填）</div><textarea class="field" id="sh-note" placeholder="想记一句就写，不写也行">'+esc(rec.note||'')+'</textarea>';
+  /* 删除区：删这天的记录 / 删整次经期（点错时用） */
+  var per=periodFor(ds);
+  if(per || hasDayData(rec)){
+    h+='<div class="danger-zone"><div class="group-t" style="color:var(--red)">删除</div>';
+    if(per){
+      var lenTxt=per.end?(' · 共 '+(diffD(parseD(per.end),parseD(per.start))+1)+' 天'):(' · 已进行 '+(diffD(new Date(),parseD(per.start))+1)+' 天');
+      h+='<div class="del-card"><div class="del-info">这次经期：<b>'+cnDate(per.start)+' – '+(per.end?cnDate(per.end):'进行中')+'</b>'+lenTxt+'</div>';
+      if(sheetConfirm==='period') h+=confirmBox('确定删除这次经期吗？期间每天的量、症状等记录会一起删掉，删了不能恢复。','period');
+      else h+='<button class="del-btn" id="sh-del-period">删除这次经期</button>';
+      h+='</div>';
+    }
+    if(hasDayData(rec)){
+      if(sheetConfirm==='day') h+=confirmBox('确定删除 '+cnDate(ds)+' 这天的全部记录吗？删了不能恢复。','day');
+      else h+='<button class="del-btn" id="sh-del-day">删除这天的记录</button>';
+    }
+    h+='</div>';
+  }
   $('#sheet-body').innerHTML=h;
   /* 绑定 */
-  bindTiles('flow', function(v){ rec.flow=v; });
-  bindTiles('pain', function(v){ rec.pain=v; });
-  bindTiles('mood', function(v){ rec.mood=v; });
-  bindTiles('lh', function(v){ rec.lh=v; });
-  bindTiles('dis', function(v){ rec.discharge=v; });
+  bindTiles('flow', rec.flow, function(v){ rec.flow=v; });
+  bindTiles('pain', rec.pain, function(v){ rec.pain=v; });
+  bindTiles('mood', rec.mood, function(v){ rec.mood=v; });
+  bindTiles('lh', rec.lh, function(v){ rec.lh=v; });
+  bindTiles('dis', rec.discharge, function(v){ rec.discharge=v; });
+  function gotoDate(v){
+    if(!v || v===sheetDate) return;
+    sheetDate=v; calSelected=v; sheetConfirm=null;
+    var dd=parseD(v); calCursor=new Date(dd.getFullYear(), dd.getMonth(), 1);
+    renderCalendar(); renderSheet();
+  }
+  var dateInp=$('#sh-date'); if(dateInp) dateInp.addEventListener('change', function(){ gotoDate(this.value); });
+  var stripEls=document.querySelectorAll('[data-strip]');
+  for(var si=0;si<stripEls.length;si++) stripEls[si].addEventListener('click', function(){ gotoDate(this.getAttribute('data-strip')); });
+  var stripEl=$('#strip');
+  if(stripEl){ var selEl=stripEl.querySelector('.strip-day.sel'); if(selEl) stripEl.scrollLeft=selEl.offsetLeft-stripEl.clientWidth/2+selEl.offsetWidth/2; }
   var syms=document.querySelectorAll('[data-sym]');
   for(var i=0;i<syms.length;i++) syms[i].addEventListener('click', function(){
     var s=this.getAttribute('data-sym'); rec.symptoms=rec.symptoms||[];
@@ -564,25 +706,88 @@ function renderSheet(){
   $('#sh-sex').addEventListener('click', function(){ rec.sex=!rec.sex; save(); renderSheet(); });
   $('#sh-bbt').addEventListener('change', function(){ var v=parseFloat(this.value); rec.bbt=isNaN(v)?null:v; save(); toast('体温已保存'); });
   $('#sh-note').addEventListener('change', function(){ rec.note=this.value; save(); });
-  var st=$('#sh-start'); if(st) st.addEventListener('click', function(){
-    var cc=calc(); if(cc.ongoing && cc.ongoing.start!==ds){ toast('先结束正在进行的经期'); return; }
-    if(!isStart){ S.periods.push({start:ds,end:null}); save(); }
-    renderSheet();
+  function curBleeding(){ var per=periodFor(ds); return { per:per, bleeding:!!per && (!!per.end || ds<=todayStr()) }; }
+  var by=$('#sh-bleed-yes'); if(by) by.addEventListener('click', function(){
+    var cb=curBleeding();
+    if(cb.bleeding){ toast('这天已经记了出血'); return; }
+    if(cb.per && !cb.per.end){ toast('未来的日子，到了那天再记'); return; }
+    var prevD=fmt(addD(parseD(ds),-1)), nextD=fmt(addD(parseD(ds),1));
+    var prevP=null, nextP=null;
+    S.periods.forEach(function(p){ if(p.end===prevD) prevP=p; if(p.start===nextD) nextP=p; });
+    if(prevP && nextP && prevP!==nextP){ prevP.end=nextP.end; S.periods=S.periods.filter(function(x){ return x!==nextP; }); }
+    else if(prevP){ prevP.end=ds; }
+    else if(nextP){ nextP.start=ds; }
+    else { S.periods.push({start:ds,end:null}); }
+    save(); renderAll(); renderSheet(); toast('已记这天有出血');
   });
-  var en=$('#sh-end'); if(en) en.addEventListener('click', function(){
-    var target=null; S.periods.forEach(function(p){ if(ds>=p.start && !p.end) target=p; });
-    if(target){ target.end=ds; save(); renderSheet(); } else toast('这天之前没有未结束的经期');
+  var bn=$('#sh-bleed-no'); if(bn) bn.addEventListener('click', function(){
+    var cb=curBleeding();
+    if(!cb.bleeding){
+      if(rec.flow!=null){ rec.flow=null; save(); renderSheet(); toast('已去掉这天的量'); }
+      else toast('这天本来就不在经期里');
+      return;
+    }
+    var per=cb.per;
+    if(per.start===ds && per.end===ds){ S.periods=S.periods.filter(function(x){ return x!==per; }); }
+    else if(per.start===ds){ per.start=fmt(addD(parseD(ds),1)); if(per.end && per.start>per.end) S.periods=S.periods.filter(function(x){ return x!==per; }); }
+    else { per.end=fmt(addD(parseD(ds),-1)); }
+    rec.flow=null; save(); renderAll(); renderSheet(); toast('已把这天从经期里去掉');
   });
-  var un=$('#sh-undoperiod'); if(un) un.addEventListener('click', function(){
-    S.periods.forEach(function(p){ if(p.end===ds) p.end=null; });
-    S.periods=S.periods.filter(function(p){ return p.start!==ds; });
-    save(); renderSheet(); toast('已取消这天的起止标记');
+  var delDay=$('#sh-del-day'); if(delDay) delDay.addEventListener('click', function(){ sheetConfirm='day'; renderSheet(); });
+  var delPer=$('#sh-del-period'); if(delPer) delPer.addEventListener('click', function(){ sheetConfirm='period'; renderSheet(); });
+  var cc1=document.querySelectorAll('[data-confirm-cancel]');
+  for(var ci=0;ci<cc1.length;ci++) cc1[ci].addEventListener('click', function(){ sheetConfirm=null; renderSheet(); });
+  var cy=document.querySelectorAll('[data-confirm-yes]');
+  for(var yi=0;yi<cy.length;yi++) cy[yi].addEventListener('click', function(){
+    var kind=this.getAttribute('data-confirm-yes'); sheetConfirm=null;
+    if(kind==='day'){
+      delete S.days[ds]; save(); renderAll(); renderSheet(); toast('已删除 '+cnDate(ds)+' 的记录');
+    } else if(kind==='period'){
+      var p=periodFor(ds);
+      if(p){ deletePeriod(p); renderAll(); renderSheet(); toast('已删除这次经期'); }
+    }
   });
 }
-function bindTiles(attr, fn){
+function findPeriodByStart(s){ for(var i=0;i<S.periods.length;i++) if(S.periods[i].start===s) return S.periods[i]; return null; }
+function deletePeriod(p){
+  var rangeEnd=p.end||todayStr();
+  S.periods=S.periods.filter(function(x){ return x!==p; });
+  var cur=parseD(p.start), last=parseD(rangeEnd);
+  while(cur<=last){ delete S.days[fmt(cur)]; cur=addD(cur,1); }
+  save();
+}
+/* ============ 经期编辑（从经期历史进入） ============ */
+var editStart=null, pConfirm=false;
+function openPeriodEditor(p){
+  editStart=p.start; pConfirm=false; renderPeriodEditor();
+  $('#psheet-mask').classList.add('open'); $('#psheet').classList.add('open');
+}
+function closePeriodEditor(){ $('#psheet-mask').classList.remove('open'); $('#psheet').classList.remove('open'); }
+function renderPeriodEditor(){
+  var p=findPeriodByStart(editStart);
+  if(!p){ closePeriodEditor(); return; }
+  $('#psheet-sub').textContent='这次经期：'+cnDate(p.start)+' 开始'+(p.end?('，'+cnDate(p.end)+' 结束'):'，还在进行中');
+  var h='<div class="group-t">开始日期</div><input type="date" class="field" id="pe-start" value="'+p.start+'">'
+    +'<div class="group-t">结束日期</div><input type="date" class="field" id="pe-end" value="'+(p.end||'')+'">'
+    +'<div class="sub" style="margin-top:6px">结束日期留空 = 这次经期还在进行中。</div>'
+    +'<div class="danger-zone"><div class="group-t" style="color:var(--red)">删除</div>'
+    +(pConfirm?confirmBox('确定删除这次经期吗？期间每天的量、症状等记录会一起删掉，删了不能恢复。','period2'):'<button class="del-btn" id="pe-del">删除这次经期</button>')
+    +'</div>';
+  $('#psheet-body').innerHTML=h;
+  var del=$('#pe-del'); if(del) del.addEventListener('click', function(){ pConfirm=true; renderPeriodEditor(); });
+  var can=document.querySelectorAll('#psheet-body [data-confirm-cancel]');
+  for(var i=0;i<can.length;i++) can[i].addEventListener('click', function(){ pConfirm=false; renderPeriodEditor(); });
+  var yes=document.querySelectorAll('#psheet-body [data-confirm-yes]');
+  for(var j=0;j<yes.length;j++) yes[j].addEventListener('click', function(){
+    var pp=findPeriodByStart(editStart); pConfirm=false;
+    if(pp){ deletePeriod(pp); closePeriodEditor(); renderAll(); toast('已删除这次经期'); }
+  });
+}
+function bindTiles(attr, cur, fn){
   var els=document.querySelectorAll('[data-'+attr+']');
   for(var i=0;i<els.length;i++) els[i].addEventListener('click', function(){
-    fn(parseInt(this.getAttribute('data-'+attr),10)); save(); renderSheet();
+    var v=parseInt(this.getAttribute('data-'+attr),10);
+    fn(v===cur?null:v); save(); renderSheet();
   });
 }
 
@@ -717,8 +922,20 @@ function switchTab(name){
 document.querySelectorAll('.tab').forEach(function(t){ t.addEventListener('click', function(){ switchTab(t.getAttribute('data-tab')); }); });
 $('#cal-prev').addEventListener('click', function(){ calCursor.setMonth(calCursor.getMonth()-1); renderCalendar(); });
 $('#cal-next').addEventListener('click', function(){ calCursor.setMonth(calCursor.getMonth()+1); renderCalendar(); });
+$('#cal-today').addEventListener('click', function(){ calCursor=new Date(); calCursor.setDate(1); calSelected=todayStr(); renderCalendar(); });
 $('#sheet-mask').addEventListener('click', closeSheet);
 $('#sheet-close').addEventListener('click', closeSheet);
+$('#psheet-mask').addEventListener('click', closePeriodEditor);
+$('#psheet-close').addEventListener('click', closePeriodEditor);
+$('#psheet-save').addEventListener('click', function(){
+  var p=findPeriodByStart(editStart); if(!p) return;
+  var ns=$('#pe-start').value, ne=$('#pe-end').value||null;
+  if(!ns){ toast('开始日期不能为空'); return; }
+  if(ne && ne<ns){ toast('结束日期不能早于开始日期'); return; }
+  var overlap=S.periods.some(function(q){ if(q===p) return false; var qe=q.end||'9999-12-31'; var pe2=ne||'9999-12-31'; return ns<=qe && q.start<=pe2; });
+  if(overlap){ toast('和另一次经期重叠了，改一下日期'); return; }
+  p.start=ns; p.end=ne; editStart=ns; save(); closePeriodEditor(); renderAll(); toast('已保存这次经期');
+});
 $('#btn-export').addEventListener('click', function(){
   var box=$('#export-box'); box.style.display='block';
   $('#export-text').value=JSON.stringify(S,null,1);
